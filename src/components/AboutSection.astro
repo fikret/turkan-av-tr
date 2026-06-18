@@ -1,4 +1,6 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import type { Lang } from '../i18n/ui';
 import { useTranslations } from '../i18n/utils';
 import { aboutParagraphs } from '../data/about';
@@ -10,6 +12,16 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+// src/assets/site/about.(jpg|...) varsa görsel bandı gösterilir; yoksa gizlenir.
+const siteImages = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/site/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true }
+);
+const aboutEntry = Object.entries(siteImages).find(([p]) =>
+  p.toLowerCase().includes('/about.')
+);
+const aboutImage = aboutEntry ? aboutEntry[1].default : null;
 ---
 
 <section id="hakkimizda" class="bg-cream">
@@ -39,5 +51,20 @@ const t = useTranslations(lang);
         }
       </div>
     </div>
+
+    {
+      aboutImage && (
+        <div class="mt-12 overflow-hidden rounded-lg lg:mt-16">
+          <Image
+            src={aboutImage}
+            alt=""
+            widths={[768, 1280, 1600]}
+            sizes="(max-width: 1280px) 100vw, 1216px"
+            class="aspect-[16/7] w-full object-cover"
+          />
+        </div>
+      )
+    }
   </div>
 </section>
+
