@@ -1,50 +1,153 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/inter';
-@import '@fontsource/cormorant-garamond/400.css';
-@import '@fontsource/cormorant-garamond/500.css';
-@import '@fontsource/cormorant-garamond/600.css';
-@import '@fontsource/cormorant-garamond/700.css';
+@import '@fontsource/libre-caslon-display/400.css';
+@import '@fontsource-variable/libre-franklin';
 
-/* ---- Design tokens (Tailwind v4 theme) ---- */
+/* =========================================================
+   v2 — "Heritage" tasarım sistemi
+   Köklü & prestijli: derin kütüphane yeşili + antika pirinç,
+   Libre Caslon Display (başlık) + Libre Franklin (gövde).
+   ========================================================= */
 @theme {
-  --color-ink: #0f1b2d; /* derin lacivert/antrasit */
-  --color-ink-700: #1b2a40;
-  --color-ink-500: #33455e;
-  --color-gold: #b08d57; /* sıcak vurgu, soluk altın/bronz */
-  --color-gold-600: #9a7846;
-  --color-cream: #f7f5f1; /* nötr açık zemin */
-  --color-cream-200: #efebe3;
+  /* Mürekkep (metin) — hafif yeşil alt tonlu near-black */
+  --color-ink: oklch(0.25 0.018 155);
+  --color-ink-soft: oklch(0.42 0.02 155);
+  --color-ink-faint: oklch(0.50 0.019 155);
 
-  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Inter Variable', system-ui, -apple-system, Segoe UI, sans-serif;
+  /* Heritage yeşil — marka ana rengi (committed) */
+  --color-forest: oklch(0.34 0.046 158);
+  --color-forest-700: oklch(0.30 0.045 159);
+  --color-forest-deep: oklch(0.24 0.038 160);
+  --color-forest-900: oklch(0.19 0.03 162);
+
+  /* Antika pirinç — mikro aksan (≤%10). brass: koyu yeşil üstü; brass-deep: açık zemin metni (AA). */
+  --color-brass: oklch(0.70 0.085 76);
+  --color-brass-deep: oklch(0.46 0.085 66);
+
+  /* Kağıt — yeşile hafif kırık beyaz zemin */
+  --color-paper: oklch(0.978 0.006 150);
+  --color-paper-2: oklch(0.955 0.009 152);
+  --color-paper-3: oklch(0.93 0.011 153);
+  /* Yeşil üstü açık metin */
+  --color-cream: oklch(0.955 0.013 95);
+  --color-cream-soft: oklch(0.90 0.012 95);
+
+  --color-line: oklch(0.34 0.046 158 / 0.16);
+  --color-line-strong: oklch(0.34 0.046 158 / 0.34);
+
+  --font-serif: 'Libre Caslon Display', 'Libre Caslon Display Fallback', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Libre Franklin Variable', 'Libre Franklin', system-ui, -apple-system, Segoe UI, sans-serif;
+
+  /* Hareket: dışbükey ease-out (yaylanma yok) */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* z-index ölçeği */
+  --z-header: 50;
+  --z-overlay: 60;
+}
+
+/* Metric-eşleşmiş fallback (CLS önleme) */
+@font-face {
+  font-family: 'Libre Caslon Display Fallback';
+  src: local('Georgia');
+  size-adjust: 96%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
 }
 
 html {
   scroll-behavior: smooth;
-  /* sticky header offset için anchor kaydırması */
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 5.5rem;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  font-kerning: normal;
   color: var(--color-ink);
-  background-color: #ffffff;
+  background-color: var(--color-paper);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4, .font-serif {
   font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.012em;
 }
 
-/* Erişilebilir odak halkası */
+::selection {
+  background: var(--color-forest);
+  color: var(--color-cream);
+}
+
 :focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-brass-deep);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* ---- Fluid tip ölçeği (1.25+ oran) ---- */
+.t-display {
+  font-size: clamp(2.6rem, 1.5rem + 4.6vw, 5rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.t-h2 {
+  font-size: clamp(1.95rem, 1.35rem + 2.4vw, 3.1rem);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.t-h3 {
+  font-size: clamp(1.3rem, 1.08rem + 0.95vw, 1.7rem);
+  line-height: 1.18;
+  text-wrap: balance;
+}
+.t-lead {
+  font-size: clamp(1.1rem, 1.02rem + 0.5vw, 1.32rem);
+  line-height: 1.62;
+}
+.t-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.prose-measure { max-width: 68ch; }
+
+/* ---- Pirinç ince çizgi (dekoratif kural) ---- */
+.rule-brass {
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-brass) 0%, var(--color-brass-deep) 40%, transparent 100%);
+}
+
+/* ---- Yükleme girişi (sayfa açılışında, görünür varsayılanı zenginleştirir) ---- */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(1.4rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes draw-rule {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.anim-rise {
+  animation: rise-in 0.9s var(--ease-out-quint) both;
+}
+.anim-rise-2 { animation: rise-in 0.9s var(--ease-out-quint) 0.12s both; }
+.anim-rise-3 { animation: rise-in 0.9s var(--ease-out-quint) 0.24s both; }
+.anim-rise-4 { animation: rise-in 0.9s var(--ease-out-quint) 0.36s both; }
+.anim-rule {
+  transform-origin: left;
+  animation: draw-rule 1s var(--ease-out-quint) 0.3s both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  html { scroll-behavior: auto; }
+  .anim-rise, .anim-rise-2, .anim-rise-3, .anim-rise-4, .anim-rule {
+    animation: none;
   }
 }

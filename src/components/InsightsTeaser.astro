@@ -13,25 +13,22 @@ const posts = (await getInsights(lang)).slice(0, 3);
 const base = withBase(lang === 'tr' ? '/guncel' : '/en/insights');
 ---
 
-<section id="guncel" class="bg-cream">
-  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-    <div class="flex flex-wrap items-end justify-between gap-4">
+<section id="guncel" class="bg-paper">
+  <div class="mx-auto max-w-[78rem] px-5 py-24 sm:px-8 lg:py-32">
+    <div class="flex flex-wrap items-end justify-between gap-6">
       <div class="max-w-2xl">
-        <p class="text-sm font-semibold uppercase tracking-[0.18em] text-gold-600">
-          {t('insights.title')}
-        </p>
-        <h2 class="mt-3 font-serif text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-          {t('insights.subtitle')}
-        </h2>
+        <h2 class="t-h2 text-forest">{t('insights.title')}</h2>
+        <div class="rule-brass mt-7 w-20"></div>
+        <p class="t-lead mt-7 text-ink-soft prose-measure">{t('insights.subtitle')}</p>
       </div>
       {
         posts.length > 0 && (
           <a
             href={routeMap.insights[lang]}
-            class="inline-flex items-center gap-2 text-sm font-semibold text-gold-600 transition-colors hover:text-ink"
+            class="group inline-flex items-center gap-2 text-sm font-semibold text-forest transition-colors duration-300 hover:text-brass-deep"
           >
             {t('insights.all')}
-            <span aria-hidden="true">&rarr;</span>
+            <span class="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
           </a>
         )
       }
@@ -39,19 +36,20 @@ const base = withBase(lang === 'tr' ? '/guncel' : '/en/insights');
 
     {
       posts.length === 0 ? (
-        <p class="mt-10 text-base text-ink-500">{t('insights.empty')}</p>
+        <p class="mt-12 text-ink-faint">{t('insights.empty')}</p>
       ) : (
-        <div class="mt-12 grid gap-8 md:grid-cols-3">
+        <div class="mt-14 grid gap-x-10 gap-y-12 md:grid-cols-3">
           {posts.map((post) => (
             <article class="group">
               <a href={`${base}/${post.data.slug}`} class="block">
-                <p class="text-xs font-medium uppercase tracking-wide text-gold-600">
+                <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-brass-deep">
                   {formatDate(post.data.pubDate, lang)}
                 </p>
-                <h3 class="mt-2 font-serif text-xl font-semibold leading-snug text-ink transition-colors group-hover:text-gold-600">
+                <div class="mt-4 h-px w-full bg-line transition-colors duration-300 group-hover:bg-line-strong" />
+                <h3 class="t-h3 mt-4 text-forest transition-colors duration-300 group-hover:text-brass-deep">
                   {post.data.title}
                 </h3>
-                <p class="mt-2 text-sm leading-relaxed text-ink-500">{post.data.description}</p>
+                <p class="mt-3 text-[0.98rem] leading-[1.65] text-ink-soft">{post.data.description}</p>
               </a>
             </article>
           ))}
