@@ -11,7 +11,6 @@ kadar zaten CC0 idi). Bu liste yalnızca şeffaflık ve doğrulanabilirlik için
 | Dosya | Konu | Kaynak |
 |---|---|---|
 | `src/assets/site/hero.jpg` | Modern cam gökdelenler (kahraman arka plan) | https://www.pexels.com/photo/8552481/ |
-| `src/assets/site/about.jpg` | Sıcak, minimalist modern ofis/toplantı odası | https://www.pexels.com/photo/20390772/ |
 
 ## Çalışma alanları (`src/assets/practice/<slug>.jpg`)
 | Çalışma alanı | Konu | Kaynak |
