@@ -1,0 +1,95 @@
+---
+import type { Lang } from '../i18n/ui';
+import { ui } from '../i18n/ui';
+import { contact } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Lang;
+  /** Karşı dildeki eş sayfanın yolu (hreflang alternatifi için). */
+  altPath?: string;
+  /** Bu sayfanın kendi yolu (canonical için). */
+  path: string;
+  /** LegalService JSON-LD'yi ekle (genelde ana sayfada). */
+  includeOrgSchema?: boolean;
+}
+
+const {
+  title,
+  description,
+  lang,
+  altPath,
+  path,
+  includeOrgSchema = false,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://turkan.av.tr');
+const canonical = new URL(path, site).href;
+const ogImage = new URL('/og-image.jpg', site).href;
+const siteName = ui[lang]['site.name'];
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LegalService',
+  name: 'Tüfek & Türkan Hukuk Bürosu',
+  url: site.href,
+  email: contact.email,
+  telephone: '+90 216 349 30 36',
+  foundingDate: String(contact.foundedYear),
+  areaServed: 'TR',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Caferağa Mah. Mühürdar Cad. Tezer Apt. No:81 Kat:4 Daire:5',
+    addressLocality: 'Kadıköy',
+    addressRegion: 'İstanbul',
+    addressCountry: 'TR',
+  },
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+{/* hreflang alternatifleri */}
+{
+  altPath && (
+    <>
+      <link
+        rel="alternate"
+        hreflang={lang === 'tr' ? 'en' : 'tr'}
+        href={new URL(altPath, site).href}
+      />
+      <link rel="alternate" hreflang={lang} href={canonical} />
+      <link
+        rel="alternate"
+        hreflang="x-default"
+        href={new URL(lang === 'tr' ? path : altPath, site).href}
+      />
+    </>
+  )
+}
+
+{/* Open Graph */}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={lang === 'tr' ? 'tr_TR' : 'en_US'} />
+<meta property="og:image" content={ogImage} />
+
+{/* Twitter */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+
+{
+  includeOrgSchema && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(orgSchema)}
+    />
+  )
+}

@@ -1,0 +1,68 @@
+---
+import type { Lang } from '../i18n/ui';
+import { useTranslations, routeMap } from '../i18n/utils';
+import { practiceAreas } from '../data/practice-areas';
+
+interface Props {
+  lang: Lang;
+  /** true: tam liste + açıklamalar (Çalışma Alanları sayfası). false: ana sayfa özeti. */
+  full?: boolean;
+}
+
+const { lang, full = false } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="calisma-alanlari" class={full ? 'bg-white' : 'bg-white'}>
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <div class="max-w-2xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.18em] text-gold-600">
+        {t('practice.title')}
+      </p>
+      <h2 class="mt-3 font-serif text-3xl font-semibold leading-tight text-ink sm:text-4xl">
+        {t('practice.subtitle')}
+      </h2>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        practiceAreas.map((area) => (
+          <article class="group relative overflow-hidden rounded-md border border-ink/10 bg-white transition-shadow hover:shadow-lg">
+            {/* Soyut görsel (telifsiz, CSS gradyan) */}
+            <div
+              class="h-28 w-full"
+              aria-hidden="true"
+              style={`background:
+                radial-gradient(120% 120% at 80% 0%, ${area.gradient[1]} 0%, ${area.gradient[0]} 70%);`}
+            >
+              <div
+                class="h-full w-full opacity-20"
+                style="background-image: repeating-linear-gradient(125deg, #ffffff 0 1px, transparent 1px 22px);"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif text-xl font-semibold text-ink">{area.name[lang]}</h3>
+              {full && (
+                <p class="mt-2 text-sm leading-relaxed text-ink-500">{area.description[lang]}</p>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    {
+      !full && (
+        <div class="mt-10">
+          <a
+            href={routeMap.practice[lang]}
+            class="inline-flex items-center gap-2 text-sm font-semibold text-gold-600 transition-colors hover:text-ink"
+          >
+            {t('practice.all')}
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import TeamGrid from '../components/TeamGrid.astro';
+import { useTranslations } from '../i18n/utils';
+
+const lang = 'tr' as const;
+const t = useTranslations(lang);
+const title = 'Ekibimiz | Tüfek & Türkan Hukuk Bürosu';
+const description =
+  'Deneyimli avukat kadromuz: çalışma alanları, eğitim ve baro bilgileriyle Tüfek & Türkan Hukuk Bürosu ekibi.';
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  path="/ekibimiz"
+  altPath="/en/team"
+>
+  <PageHeader eyebrow={t('team.title')} title={t('team.title')} subtitle={t('team.subtitle')} />
+  <TeamGrid lang={lang} full={true} />
+</BaseLayout>

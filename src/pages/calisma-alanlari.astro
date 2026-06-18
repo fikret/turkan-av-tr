@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import PracticeGrid from '../components/PracticeGrid.astro';
+import { useTranslations } from '../i18n/utils';
+
+const lang = 'tr' as const;
+const t = useTranslations(lang);
+const title = 'Çalışma Alanları | Tüfek & Türkan Hukuk Bürosu';
+const description =
+  'Ticaret, şirketler, iş, gayrimenkul, fikri mülkiyet, aile, ceza ve daha birçok hukuk dalında danışmanlık ve dava takibi.';
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  path="/calisma-alanlari"
+  altPath="/en/practice-areas"
+>
+  <PageHeader eyebrow={t('practice.title')} title={t('practice.title')} subtitle={t('practice.subtitle')} />
+  <PracticeGrid lang={lang} full={true} />
+</BaseLayout>

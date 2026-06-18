@@ -1,0 +1,24 @@
+---
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Karşı dildeki eş sayfanın yolu. */
+  altPath: string;
+}
+
+const { lang, altPath } = Astro.props;
+const other: Lang = lang === 'tr' ? 'en' : 'tr';
+const label = other.toUpperCase();
+const fullLabel = other === 'tr' ? 'Türkçe' : 'English';
+---
+
+<a
+  href={altPath}
+  hreflang={other}
+  lang={other}
+  class="inline-flex items-center rounded-sm border border-ink/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-ink-500 transition-colors hover:border-gold hover:text-gold-600"
+  aria-label={fullLabel}
+>
+  {label}
+</a>

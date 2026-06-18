@@ -1,0 +1,5 @@
+# Cloudflare Pages — doğrudan dağıtım yapılandırması (wrangler ile)
+# Git entegrasyonu kullanılırsa bu dosya gerekmez; build ayarları panelden yapılır.
+name = "turkan-av-tr"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-06-18"

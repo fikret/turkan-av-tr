@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { useTranslations } from '../../i18n/utils';
+import { getInsights, formatDate } from '../../lib/insights';
+
+const lang = 'tr' as const;
+const t = useTranslations(lang);
+const posts = await getInsights(lang);
+const title = 'Güncel | Tüfek & Türkan Hukuk Bürosu';
+const description = 'Hukuki gelişmeler ve büromuzdan haberler.';
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  path="/guncel"
+  altPath="/en/insights"
+>
+  <PageHeader eyebrow={t('insights.title')} title={t('insights.title')} subtitle={t('insights.subtitle')} />
+  <section class="bg-white">
+    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      {
+        posts.length === 0 ? (
+          <p class="text-base text-ink-500">{t('insights.empty')}</p>
+        ) : (
+          <div class="space-y-10">
+            {posts.map((post) => (
+              <article class="border-b border-ink/10 pb-10 last:border-b-0">
+                <a href={`/guncel/${post.data.slug}`} class="group block">
+                  <p class="text-xs font-medium uppercase tracking-wide text-gold-600">
+                    {formatDate(post.data.pubDate, lang)}
+                  </p>
+                  <h2 class="mt-2 font-serif text-2xl font-semibold leading-snug text-ink transition-colors group-hover:text-gold-600">
+                    {post.data.title}
+                  </h2>
+                  <p class="mt-2 text-base leading-relaxed text-ink-500">{post.data.description}</p>
+                </a>
+              </article>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

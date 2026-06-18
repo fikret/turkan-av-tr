@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import AboutSection from '../../components/AboutSection.astro';
+import PracticeGrid from '../../components/PracticeGrid.astro';
+import TeamGrid from '../../components/TeamGrid.astro';
+import InsightsTeaser from '../../components/InsightsTeaser.astro';
+import ContactSection from '../../components/ContactSection.astro';
+
+const lang = 'en' as const;
+const title = 'Tüfek & Türkan Law Firm | Kadıköy, Istanbul';
+const description =
+  'Tüfek & Türkan Law Firm — preventive, solution-oriented and effective legal counsel since 2014. Labour, commercial, real estate, family law and more.';
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  path="/en/"
+  altPath="/"
+  includeOrgSchema={true}
+>
+  <Hero lang={lang} />
+  <AboutSection lang={lang} />
+  <PracticeGrid lang={lang} />
+  <TeamGrid lang={lang} />
+  <InsightsTeaser lang={lang} />
+  <ContactSection lang={lang} />
+</BaseLayout>

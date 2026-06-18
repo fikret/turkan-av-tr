@@ -1,0 +1,67 @@
+---
+import type { Lang } from '../i18n/ui';
+import { useTranslations, routeMap } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="relative overflow-hidden bg-ink text-cream">
+  {/* Soyut, grafik-olmayan arka plan (terazi/themis yok) */}
+  <div class="absolute inset-0" aria-hidden="true">
+    <div
+      class="absolute inset-0"
+      style="background:
+        radial-gradient(60% 80% at 75% 20%, rgba(176,141,87,0.28), transparent 60%),
+        radial-gradient(50% 70% at 15% 90%, rgba(81,105,135,0.35), transparent 55%),
+        linear-gradient(135deg, #0f1b2d 0%, #16243a 55%, #0f1b2d 100%);">
+    </div>
+    {/* ince çizgisel doku */}
+    <div
+      class="absolute inset-0 opacity-[0.06]"
+      style="background-image: repeating-linear-gradient(115deg, #ffffff 0 1px, transparent 1px 26px);">
+    </div>
+  </div>
+
+  <div class="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8 lg:py-40">
+    <div class="max-w-3xl">
+      <p class="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-gold">
+        {t('site.name')}
+      </p>
+      <h1 class="font-serif text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+        {t('hero.title')}
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-cream/80">
+        {t('hero.subtitle')}
+      </p>
+      <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a
+          href={routeMap.practice[lang]}
+          class="inline-flex items-center justify-center rounded-sm bg-gold px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-gold-600 hover:text-cream"
+        >
+          {t('hero.cta.practice')}
+        </a>
+        <a
+          href={routeMap.contact[lang]}
+          class="inline-flex items-center justify-center rounded-sm border border-cream/30 px-6 py-3 text-sm font-semibold text-cream transition-colors hover:border-gold hover:text-gold"
+        >
+          {t('hero.cta.contact')}
+        </a>
+      </div>
+
+      {/* "we connect" üyelik rozeti — görsel müşteriden gelince /public/we-connect.svg ile değiştirilir */}
+      <div class="mt-12 flex items-center gap-3">
+        <span
+          class="flex h-10 items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-4 text-xs font-semibold uppercase tracking-wide text-cream/80"
+        >
+          <span class="h-2 w-2 rounded-full bg-gold" aria-hidden="true"></span>
+          {t('hero.member')}
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

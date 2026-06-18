@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Lang;
+  /** Bu sayfanın yolu (canonical). */
+  path: string;
+  /** Karşı dildeki eş sayfanın yolu (hreflang + dil değiştirici). */
+  altPath: string;
+  includeOrgSchema?: boolean;
+}
+
+const {
+  title,
+  description,
+  lang,
+  path,
+  altPath,
+  includeOrgSchema = false,
+} = Astro.props;
+const t = useTranslations(lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <SEO
+      title={title}
+      description={description}
+      lang={lang}
+      path={path}
+      altPath={altPath}
+      includeOrgSchema={includeOrgSchema}
+    />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-cream"
+    >
+      {t('a11y.skip')}
+    </a>
+    <Header lang={lang} altPath={altPath} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

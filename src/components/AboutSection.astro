@@ -1,0 +1,43 @@
+---
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+import { aboutParagraphs } from '../data/about';
+import { contact } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="hakkimizda" class="bg-cream">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-4">
+        <p class="text-sm font-semibold uppercase tracking-[0.18em] text-gold-600">
+          {t('about.title')}
+        </p>
+        <h2 class="mt-3 font-serif text-3xl font-semibold leading-tight text-ink sm:text-4xl">
+          {lang === 'tr'
+            ? 'Güvene dayalı, çözüm odaklı hukuk anlayışı'
+            : 'Trust-based, solution-oriented legal practice'}
+        </h2>
+        <div class="mt-6 flex items-baseline gap-3">
+          <span class="font-serif text-5xl font-semibold text-gold">{contact.foundedYear}</span>
+          <span class="text-sm text-ink-500">
+            {lang === 'tr' ? 'yılından bu yana' : 'serving since'}
+          </span>
+        </div>
+      </div>
+      <div class="space-y-5 lg:col-span-8">
+        {
+          aboutParagraphs.map((p) => (
+            <p class="text-base leading-relaxed text-ink-700">{p[lang]}</p>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
