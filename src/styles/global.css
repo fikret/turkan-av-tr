@@ -1,50 +1,136 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/inter';
-@import '@fontsource/cormorant-garamond/400.css';
-@import '@fontsource/cormorant-garamond/500.css';
-@import '@fontsource/cormorant-garamond/600.css';
-@import '@fontsource/cormorant-garamond/700.css';
+@import '@fontsource-variable/bodoni-moda';
+@import '@fontsource-variable/hanken-grotesk';
 
-/* ---- Design tokens (Tailwind v4 theme) ---- */
+/* =========================================================
+   v3 — "Gece" tasarım sistemi
+   Koyu prestij: derin sıcak antrasit + sıcak fildişi + garnet/bordo aksan,
+   Bodoni Moda (yüksek kontrastlı Didone başlık) + Hanken Grotesk (gövde).
+   ========================================================= */
 @theme {
-  --color-ink: #0f1b2d; /* derin lacivert/antrasit */
-  --color-ink-700: #1b2a40;
-  --color-ink-500: #33455e;
-  --color-gold: #b08d57; /* sıcak vurgu, soluk altın/bronz */
-  --color-gold-600: #9a7846;
-  --color-cream: #f7f5f1; /* nötr açık zemin */
-  --color-cream-200: #efebe3;
+  /* Zemin — derin sıcak antrasit (hafif sıcak alt ton) */
+  --color-night: oklch(0.18 0.013 48);
+  --color-night-2: oklch(0.225 0.014 48); /* panel */
+  --color-night-3: oklch(0.27 0.015 48); /* yükseltilmiş panel / hover */
 
-  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Inter Variable', system-ui, -apple-system, Segoe UI, sans-serif;
+  /* Metin — sıcak fildişi (açık zeminde değil, koyuda) */
+  --color-ivory: oklch(0.94 0.012 80);
+  --color-ivory-soft: oklch(0.80 0.012 75);
+  --color-ivory-faint: oklch(0.66 0.012 72);
+
+  /* Garnet / bordo — tek sıcak aksan */
+  --color-garnet: oklch(0.56 0.135 24); /* dolu alan / dekoratif */
+  --color-garnet-bright: oklch(0.72 0.12 32); /* koyu üstü metin/link (AA) */
+
+  --color-line: oklch(0.94 0.012 80 / 0.14);
+  --color-line-strong: oklch(0.94 0.012 80 / 0.28);
+
+  --font-display: 'Bodoni Moda Variable', 'Bodoni Moda', Didot, 'Times New Roman', serif;
+  --font-sans: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, -apple-system, Segoe UI, sans-serif;
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --z-header: 50;
 }
 
 html {
   scroll-behavior: smooth;
-  /* sticky header offset için anchor kaydırması */
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 5.5rem;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-sans);
-  color: var(--color-ink);
-  background-color: #ffffff;
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  color: var(--color-ivory);
+  background-color: var(--color-night);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* açık metin koyu zeminde: hafif nefes */
+  letter-spacing: 0.008em;
 }
 
-h1, h2, h3, h4, .font-serif {
-  font-family: var(--font-serif);
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.012em;
 }
 
-/* Erişilebilir odak halkası */
+::selection {
+  background: var(--color-garnet);
+  color: var(--color-ivory);
+}
+
 :focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-garnet-bright);
+  outline-offset: 3px;
 }
+
+/* ---- Tip ölçeği (fluid clamp, ≥1.25) ---- */
+.t-display {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 1.4rem + 5.4vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  font-weight: 500;
+  text-wrap: balance;
+}
+.t-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.3rem + 2.7vw, 3.3rem);
+  line-height: 1.08;
+  font-weight: 500;
+  text-wrap: balance;
+}
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem);
+  line-height: 1.16;
+  font-weight: 500;
+  text-wrap: balance;
+}
+.t-lead {
+  font-size: clamp(1.1rem, 1.02rem + 0.5vw, 1.3rem);
+  line-height: 1.7; /* açık-koyu için bol */
+  color: var(--color-ivory-soft);
+}
+.t-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.prose-measure { max-width: 66ch; }
+
+.rule-garnet {
+  height: 2px;
+  background: var(--color-garnet);
+}
+
+/* ---- Yükleme girişi (görünür varsayılanı zenginleştirir) ---- */
+@keyframes v3-rise {
+  from { opacity: 0; transform: translateY(1.5rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes v3-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+@keyframes v3-rule {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.anim-rise { animation: v3-rise 0.9s var(--ease-out-quint) both; }
+.anim-rise-2 { animation: v3-rise 0.9s var(--ease-out-quint) 0.12s both; }
+.anim-rise-3 { animation: v3-rise 0.9s var(--ease-out-quint) 0.24s both; }
+.anim-rise-4 { animation: v3-rise 0.9s var(--ease-out-quint) 0.36s both; }
+.anim-wipe { animation: v3-wipe 1s var(--ease-out-quint) 0.15s both; }
+.anim-rule { transform-origin: left; animation: v3-rule 0.9s var(--ease-out-quint) 0.35s both; }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  html { scroll-behavior: auto; }
+  .anim-rise, .anim-rise-2, .anim-rise-3, .anim-rise-4, .anim-wipe, .anim-rule {
+    animation: none;
   }
 }

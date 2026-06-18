@@ -30,19 +30,19 @@ const altPath = enMatch ? `/en/insights/${enMatch.data.slug}` : '/en/insights';
   path={`/guncel/${post.data.slug}`}
   altPath={altPath}
 >
-  <article class="bg-white">
+  <article class="bg-night">
     <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-      <a href={withBase('/guncel')} class="text-sm font-semibold text-gold-600 transition-colors hover:text-ink">
+      <a href={withBase('/guncel')} class="text-sm font-semibold text-garnet-bright transition-colors hover:text-ivory">
         &larr; {t('insights.back')}
       </a>
       <header class="mt-6">
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium uppercase tracking-wide text-gold-600">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium uppercase tracking-wide text-garnet-bright">
           <span>{formatDate(post.data.pubDate, lang)}</span>
           <span aria-hidden="true">·</span>
           <span>{mins} {t('insights.readingTime')}</span>
         </div>
-        <h1 class="mt-3 font-serif text-4xl font-semibold leading-tight text-ink">{post.data.title}</h1>
-        <p class="mt-4 text-lg leading-relaxed text-ink-500">{post.data.description}</p>
+        <h1 class="mt-3 font-display text-4xl font-semibold leading-tight text-ivory">{post.data.title}</h1>
+        <p class="mt-4 text-lg leading-relaxed text-ivory-faint">{post.data.description}</p>
       </header>
       <div class="prose-content mt-10">
         <Content />
@@ -53,46 +53,46 @@ const altPath = enMatch ? `/en/insights/${enMatch.data.slug}` : '/en/insights';
 
 <style>
   .prose-content :global(h2) {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-size: 1.6rem;
     font-weight: 600;
-    color: var(--color-ink);
+    color: var(--color-ivory);
     margin-top: 2rem;
     margin-bottom: 0.75rem;
   }
   .prose-content :global(h3) {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-size: 1.3rem;
     font-weight: 600;
-    color: var(--color-ink);
+    color: var(--color-ivory);
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
   }
   .prose-content :global(p) {
-    color: var(--color-ink-700);
+    color: var(--color-ivory-soft);
     line-height: 1.8;
     margin-bottom: 1.1rem;
   }
   .prose-content :global(ul),
   .prose-content :global(ol) {
     margin: 1rem 0 1.25rem 1.25rem;
-    color: var(--color-ink-700);
+    color: var(--color-ivory-soft);
     line-height: 1.8;
   }
   .prose-content :global(ul) { list-style: disc; }
   .prose-content :global(ol) { list-style: decimal; }
   .prose-content :global(li) { margin-bottom: 0.4rem; }
   .prose-content :global(a) {
-    color: var(--color-gold-600);
+    color: var(--color-garnet-bright);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
-  .prose-content :global(strong) { color: var(--color-ink); font-weight: 600; }
+  .prose-content :global(strong) { color: var(--color-ivory); font-weight: 600; }
   .prose-content :global(blockquote) {
-    border-left: 3px solid var(--color-gold);
+    border-left: 3px solid var(--color-garnet);
     padding-left: 1rem;
     font-style: italic;
-    color: var(--color-ink-500);
+    color: var(--color-ivory-faint);
     margin: 1.5rem 0;
   }
 </style>
