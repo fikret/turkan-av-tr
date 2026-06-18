@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { useTranslations } from '../../../i18n/utils';
+import { useTranslations, withBase } from '../../../i18n/utils';
 import { getInsights, formatDate, readingTime } from '../../../lib/insights';
 
 export async function getStaticPaths() {
@@ -31,7 +31,7 @@ const altPath = trMatch ? `/guncel/${trMatch.data.slug}` : '/guncel';
 >
   <article class="bg-white">
     <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-      <a href="/en/insights" class="text-sm font-semibold text-gold-600 transition-colors hover:text-ink">
+      <a href={withBase('/en/insights')} class="text-sm font-semibold text-gold-600 transition-colors hover:text-ink">
         &larr; {t('insights.back')}
       </a>
       <header class="mt-6">

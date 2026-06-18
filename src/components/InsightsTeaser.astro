@@ -1,6 +1,6 @@
 ---
 import type { Lang } from '../i18n/ui';
-import { useTranslations, localizedPath, routeMap } from '../i18n/utils';
+import { useTranslations, routeMap, withBase } from '../i18n/utils';
 import { getInsights, formatDate } from '../lib/insights';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const posts = (await getInsights(lang)).slice(0, 3);
-const base = lang === 'tr' ? '/guncel' : '/en/insights';
+const base = withBase(lang === 'tr' ? '/guncel' : '/en/insights');
 ---
 
 <section id="guncel" class="bg-cream">

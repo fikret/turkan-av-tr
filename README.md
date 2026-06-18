@@ -62,6 +62,32 @@ npx wrangler pages deploy dist --project-name turkan-av-tr
 ### Özel alan adı
 Cloudflare Pages projesi → **Custom domains** → `turkan.av.tr` ekleyin ve DNS’i yönlendirin.
 
+## GitHub Pages — tasarım demoları (müşteriye gönderim için)
+
+Her tasarım bir **git branch**’idir ve kendi alt klasörüne otomatik yayınlanır
+(`.github/workflows/deploy-pages.yml`):
+
+| Branch | Demo URL |
+|---|---|
+| `main` | https://fikret.github.io/turkan-av-tr/ |
+| `v2` | https://fikret.github.io/turkan-av-tr/v2/ |
+| `design-xyz` | https://fikret.github.io/turkan-av-tr/design-xyz/ |
+
+Tetikleyen branch desenleri: `main`, `v*`, `design-*`, `tasarim-*`.
+
+### Yeni bir tasarım demosu yayınlama
+```bash
+git checkout -b v2          # main'den yeni tasarım dalı
+# ... tasarımı değiştir ...
+git push -u origin v2       # Actions otomatik /turkan-av-tr/v2/ altına yayınlar
+```
+Birkaç dakika içinde demo URL’si yayında olur; müşteriye linki gönderebilirsiniz.
+Demolar `noindex` ile yayınlanır (arama motorlarına düşmez). `base` ve site URL’i
+build sırasında env ile ayarlanır; **kod içinde elle URL değişikliği gerekmez**.
+
+> Üretim (Cloudflare, `turkan.av.tr`) `base=/` ile çalışır; GitHub Pages demoları
+> `base=/turkan-av-tr/<branch>/` ile. Aynı kod tabanı her ikisini de destekler.
+
 ## Açık / bekleyen öğeler (müşteriden)
 - **“we connect” üyelik logosu**: şu an metin rozet placeholder’ı (`Hero.astro`).
   Gerçek görsel gelince `public/we-connect.svg` ekleyip `Hero.astro`’da değiştirin.

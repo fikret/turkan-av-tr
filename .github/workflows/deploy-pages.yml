@@ -1,0 +1,59 @@
+name: Deploy to GitHub Pages
+
+# main → /turkan-av-tr/  (yayın sürümü)
+# diğer tasarım branch'leri (v2, v3, design-*, tasarim-*) → /turkan-av-tr/<branch>/
+# Her branch kendi alt klasörüne yayınlanır; demolar bir arada yaşar (keep_files).
+
+on:
+  push:
+    branches: [main, 'v*', 'design-*', 'tasarim-*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Compute base path & destination
+        id: vars
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          if [ "$BRANCH" = "main" ]; then
+            echo "dest=." >> "$GITHUB_OUTPUT"
+            echo "base=/turkan-av-tr/" >> "$GITHUB_OUTPUT"
+          else
+            echo "dest=$BRANCH" >> "$GITHUB_OUTPUT"
+            echo "base=/turkan-av-tr/$BRANCH/" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build
+        run: npm run build
+        env:
+          SITE_URL: https://fikret.github.io
+          BASE_PATH: ${{ steps.vars.outputs.base }}
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          destination_dir: ${{ steps.vars.outputs.dest }}
+          keep_files: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'deploy: ${{ github.ref_name }} → ${{ steps.vars.outputs.base }}'
