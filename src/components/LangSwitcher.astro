@@ -3,7 +3,6 @@ import type { Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
-  /** Karşı dildeki eş sayfanın yolu. */
   altPath: string;
 }
 
@@ -17,7 +16,7 @@ const fullLabel = other === 'tr' ? 'Türkçe' : 'English';
   href={altPath}
   hreflang={other}
   lang={other}
-  class="inline-flex items-center rounded-sm border border-ink/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-ink-500 transition-colors hover:border-gold hover:text-gold-600"
+  class="t-mono-label px-2 py-1 text-ink underline-offset-4 transition-colors hover:underline"
   aria-label={fullLabel}
 >
   {label}

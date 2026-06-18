@@ -1,6 +1,4 @@
 ---
-import type { ImageMetadata } from 'astro';
-import { Image } from 'astro:assets';
 import type { Lang } from '../i18n/ui';
 import { useTranslations, routeMap } from '../i18n/utils';
 
@@ -10,82 +8,78 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-
-// src/assets/site/hero.(jpg|...) varsa kahraman arka planı olur; yoksa gradyan kalır.
-const siteImages = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/site/*.{jpg,jpeg,png,webp,avif}',
-  { eager: true }
-);
-const heroEntry = Object.entries(siteImages).find(([p]) =>
-  p.toLowerCase().includes('/hero.')
-);
-const heroImage = heroEntry ? heroEntry[1].default : null;
 ---
 
-<section class="relative overflow-hidden bg-ink text-cream">
-  {/* Soyut, grafik-olmayan arka plan (terazi/themis yok) */}
-  <div class="absolute inset-0" aria-hidden="true">
-    {heroImage && (
-      <Image
-        src={heroImage}
-        alt=""
-        widths={[768, 1280, 1920]}
-        sizes="100vw"
-        class="absolute inset-0 h-full w-full object-cover"
-        loading="eager"
-      />
-    )}
-    <div
-      class="absolute inset-0"
-      style={heroImage
-        ? 'background: linear-gradient(135deg, rgba(15,27,45,0.92) 0%, rgba(22,36,58,0.82) 55%, rgba(15,27,45,0.9) 100%);'
-        : `background:
-        radial-gradient(60% 80% at 75% 20%, rgba(176,141,87,0.28), transparent 60%),
-        radial-gradient(50% 70% at 15% 90%, rgba(81,105,135,0.35), transparent 55%),
-        linear-gradient(135deg, #0f1b2d 0%, #16243a 55%, #0f1b2d 100%);`}>
-    </div>
-    {/* ince çizgisel doku */}
-    <div
-      class="absolute inset-0 opacity-[0.06]"
-      style="background-image: repeating-linear-gradient(115deg, #ffffff 0 1px, transparent 1px 26px);">
-    </div>
-  </div>
-
-  <div class="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8 lg:py-40">
-    <div class="max-w-3xl">
-      <p class="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-gold">
-        {t('site.name')}
-      </p>
-      <h1 class="font-serif text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
-        {t('hero.title')}
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-cream/80">
+<section class="bg-cream">
+  <div class="mx-auto grid max-w-[1200px] items-center gap-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-2 lg:gap-16 lg:py-24">
+    {/* Sol: tip */}
+    <div>
+      <p class="t-mono-label anim-rise text-ink/70">Est. 2014 — Moda, Kadıköy</p>
+      <h1 class="t-display anim-rise mt-5 text-ink">{t('hero.title')}</h1>
+      <p class="anim-rise-2 prose-measure mt-6 text-[1.18rem] leading-[1.6] text-ink/85">
         {t('hero.subtitle')}
       </p>
-      <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div class="anim-rise-3 mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
         <a
           href={routeMap.practice[lang]}
-          class="inline-flex items-center justify-center rounded-sm bg-gold px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-gold-600 hover:text-cream"
+          class="btn-sticker inline-flex items-center gap-2 px-6 py-3.5 text-[0.95rem] font-bold uppercase tracking-wide"
         >
           {t('hero.cta.practice')}
+          <span aria-hidden="true">&rarr;</span>
         </a>
         <a
           href={routeMap.contact[lang]}
-          class="inline-flex items-center justify-center rounded-sm border border-cream/30 px-6 py-3 text-sm font-semibold text-cream transition-colors hover:border-gold hover:text-gold"
+          class="btn-ghost inline-flex items-center px-6 py-3.5 text-[0.95rem] font-medium"
         >
           {t('hero.cta.contact')}
         </a>
       </div>
+      <p class="t-mono-label anim-rise-3 mt-10 flex items-center gap-2 text-ink/70">
+        <span class="h-2.5 w-2.5 bg-butter ring-1 ring-ink" aria-hidden="true"></span>
+        {t('hero.member')}
+      </p>
+    </div>
 
-      {/* "we connect" üyelik rozeti — görsel müşteriden gelince /public/we-connect.svg ile değiştirilir */}
-      <div class="mt-12 flex items-center gap-3">
-        <span
-          class="flex h-10 items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-4 text-xs font-semibold uppercase tracking-wide text-cream/80"
-        >
-          <span class="h-2 w-2 rounded-full bg-gold" aria-hidden="true"></span>
-          {t('hero.member')}
-        </span>
+    {/* Sağ: line-art illüstrasyon (düz, geometrik şema) */}
+    <div class="anim-rise-2 relative">
+      <div class="frame bg-white p-4 sm:p-6">
+        <svg viewBox="0 0 520 420" class="h-auto w-full overflow-visible" role="img"
+          aria-label={lang === 'tr' ? 'Hukuki belgeler ve mimari soyut çizim' : 'Abstract line art of legal documents and architecture'}>
+          <g fill="none" stroke="#0d0129" stroke-width="1.5">
+            {/* sütunlu cephe motifi (arka) */}
+            <rect x="34" y="40" width="200" height="300" fill="#fffcf7" />
+            <line x1="34" y1="72" x2="234" y2="72" />
+            <line x1="74" y1="72" x2="74" y2="340" />
+            <line x1="114" y1="72" x2="114" y2="340" />
+            <line x1="154" y1="72" x2="154" y2="340" />
+            <line x1="194" y1="72" x2="194" y2="340" />
+            <rect x="24" y="40" width="220" height="14" fill="#19615c" stroke="none" />
+            {/* belge sayfası (öne biner) */}
+            <rect x="250" y="96" width="236" height="288" fill="#ffffff" />
+            <rect x="274" y="124" width="120" height="16" fill="#fae59b" stroke="none" />
+            <line x1="274" y1="166" x2="462" y2="166" />
+            <line x1="274" y1="192" x2="462" y2="192" />
+            <line x1="274" y1="218" x2="430" y2="218" />
+            <line x1="274" y1="258" x2="462" y2="258" />
+            <line x1="274" y1="284" x2="462" y2="284" />
+            <line x1="274" y1="310" x2="408" y2="310" />
+            {/* mühür/onay */}
+            <circle cx="426" cy="338" r="30" fill="#fae59b" />
+            <path d="M412 338 l10 10 l18 -20" stroke-width="2" />
+          </g>
+          {/* aksan noktaları */}
+          <g fill="#19615c">
+            <circle cx="252" cy="60" r="6" />
+            <circle cx="40" cy="372" r="6" />
+          </g>
+          <g fill="#fae59b" stroke="#0d0129" stroke-width="1">
+            <circle cx="486" cy="92" r="7" />
+            <circle cx="232" cy="356" r="7" />
+          </g>
+        </svg>
       </div>
+      {/* çerçeveyi kıran küçük aksan */}
+      <div class="absolute -right-3 -top-3 h-7 w-7 bg-butter ring-1 ring-ink" aria-hidden="true"></div>
     </div>
   </div>
 </section>

@@ -12,29 +12,24 @@ const t = useTranslations(lang);
 const year = 2026;
 ---
 
-<footer class="bg-ink text-cream">
-  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+<footer class="border-t border-ink bg-cream">
+  <div class="mx-auto max-w-[1200px] px-5 py-14 sm:px-8">
     <div class="grid gap-10 md:grid-cols-3">
-      {/* Marka */}
       <div>
-        <div class="flex items-center gap-2.5">
-          <span class="flex h-9 w-9 items-center justify-center rounded-sm bg-cream/10 font-serif text-base font-semibold text-cream" aria-hidden="true">T&amp;T</span>
-          <span class="flex flex-col leading-none">
-            <span class="font-serif text-lg font-semibold">Tüfek &amp; Türkan</span>
-            <span class="text-[0.62rem] font-medium uppercase tracking-[0.18em] text-gold">Hukuk Bürosu</span>
-          </span>
-        </div>
-        <p class="mt-4 max-w-xs text-sm leading-relaxed text-cream/70">{t('site.tagline')}</p>
+        <a href={routeMap.home[lang]} class="flex items-center gap-2.5">
+          <span class="h-4 w-4 bg-butter ring-1 ring-ink" aria-hidden="true"></span>
+          <span class="text-[1.05rem] font-bold tracking-[-0.01em] text-ink">Tüfek &amp; Türkan</span>
+        </a>
+        <p class="mt-4 max-w-xs text-[0.95rem] leading-relaxed text-ink/75">{t('site.tagline')}</p>
       </div>
 
-      {/* Menü */}
       <div>
-        <h2 class="text-xs font-semibold uppercase tracking-[0.16em] text-gold">{t('footer.nav')}</h2>
+        <h2 class="t-mono-label text-ink/60">{t('footer.nav')}</h2>
         <ul class="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5">
           {
             navItems.map((item) => (
               <li>
-                <a href={routeMap[item.key][lang]} class="text-sm text-cream/80 transition-colors hover:text-gold">
+                <a href={routeMap[item.key][lang]} class="text-[0.92rem] text-ink underline-offset-4 transition-colors hover:underline">
                   {t(item.labelKey)}
                 </a>
               </li>
@@ -43,22 +38,17 @@ const year = 2026;
         </ul>
       </div>
 
-      {/* İletişim */}
       <div>
-        <h2 class="text-xs font-semibold uppercase tracking-[0.16em] text-gold">{t('contact.title')}</h2>
-        <address class="mt-4 space-y-2 text-sm not-italic leading-relaxed text-cream/80">
+        <h2 class="t-mono-label text-ink/60">{t('contact.title')}</h2>
+        <address class="mt-4 space-y-2 text-[0.92rem] not-italic leading-relaxed text-ink/85">
           <p>{contact.addressLines.join(' ')}</p>
-          <p>
-            <a href={`tel:${contact.phoneHref}`} class="transition-colors hover:text-gold">{contact.phoneDisplay}</a>
-          </p>
-          <p>
-            <a href={`mailto:${contact.email}`} class="transition-colors hover:text-gold">{contact.email}</a>
-          </p>
+          <p><a href={`tel:${contact.phoneHref}`} class="underline-offset-4 hover:underline">{contact.phoneDisplay}</a></p>
+          <p><a href={`mailto:${contact.email}`} class="font-medium underline underline-offset-4 hover:bg-butter">{contact.email}</a></p>
         </address>
       </div>
     </div>
 
-    <div class="mt-10 border-t border-cream/10 pt-6 text-center text-xs text-cream/50">
+    <div class="mt-12 border-t border-ink/20 pt-6 text-center text-[0.82rem] text-ink/60">
       &copy; {year} Tüfek &amp; Türkan Hukuk Bürosu. {t('footer.rights')}
     </div>
   </div>

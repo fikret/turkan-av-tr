@@ -6,7 +6,6 @@ import { team } from '../data/team';
 
 interface Props {
   lang: Lang;
-  /** true: tam biyografiler (Ekibimiz sayfası). false: ana sayfa (yalnız foto + isim + ünvan). */
   full?: boolean;
 }
 
@@ -20,54 +19,42 @@ function initials(name: string): string {
 ---
 
 <section id="ekibimiz" class="bg-cream">
-  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-    <div class="max-w-2xl">
-      <p class="text-sm font-semibold uppercase tracking-[0.18em] text-gold-600">
-        {t('team.title')}
-      </p>
-      <h2 class="mt-3 font-serif text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-        {t('team.subtitle')}
-      </h2>
+  <div class="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 sm:py-24 lg:py-28">
+    <div class="max-w-[44rem]">
+      <p class="t-mono-label text-ink/70">{t('team.title')}</p>
+      <h2 class="t-h2 mt-4 text-ink">{t('team.subtitle')}</h2>
     </div>
 
-    {/* Ana sayfa: sadece foto + isim + ünvan */}
+    {/* Ana sayfa: çerçeveli portreler */}
     {
       !full && (
         <>
           <div class="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
             {team.map((m) => (
-              <a
-                href={`${routeMap.team[lang]}#${m.slug}`}
-                class="group block text-center"
-                aria-label={`${m.name} — ${m.title[lang]}`}
-              >
-                <div class="relative mx-auto aspect-[3/4] w-full overflow-hidden rounded-md bg-ink/5 ring-gold/0 transition-shadow group-hover:ring-2 group-hover:ring-gold/40">
+              <a href={`${routeMap.team[lang]}#${m.slug}`} class="group block" aria-label={`${m.name} — ${m.title[lang]}`}>
+                <div class="frame relative bg-white">
                   {m.photo ? (
                     <Image
                       src={m.photo}
                       alt={m.name}
                       widths={[240, 360, 480]}
                       sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 240px"
-                      class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                      class="aspect-[4/5] w-full object-cover object-top"
                     />
                   ) : (
-                    <div class="flex h-full w-full items-center justify-center bg-ink text-cream">
-                      <span class="font-serif text-3xl font-semibold tracking-wide">{initials(m.name)}</span>
+                    <div class="flex aspect-[4/5] w-full items-center justify-center bg-cream">
+                      <span class="text-4xl font-bold text-ink/40">{initials(m.name)}</span>
                     </div>
                   )}
+                  <span class="absolute right-2 top-2 h-3 w-3 bg-butter opacity-0 ring-1 ring-ink transition-opacity duration-150 group-hover:opacity-100" aria-hidden="true"></span>
                 </div>
-                <div class="mt-3">
-                  <p class="font-serif text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-gold-600">{m.name}</p>
-                  <p class="mt-0.5 text-xs leading-snug text-gold-600">{m.title[lang]}</p>
-                </div>
+                <p class="mt-3 text-[1.05rem] font-bold leading-snug text-ink underline-offset-4 group-hover:underline">{m.name}</p>
+                <p class="mt-0.5 text-[0.82rem] leading-snug text-ink/70">{m.title[lang]}</p>
               </a>
             ))}
           </div>
           <div class="mt-10">
-            <a
-              href={routeMap.team[lang]}
-              class="inline-flex items-center gap-2 text-sm font-semibold text-gold-600 transition-colors hover:text-ink"
-            >
+            <a href={routeMap.team[lang]} class="btn-ghost inline-flex items-center gap-2 px-5 py-2.5 text-[0.9rem] font-medium">
               {t('team.all')}
               <span aria-hidden="true">&rarr;</span>
             </a>
@@ -79,67 +66,65 @@ function initials(name: string): string {
     {/* Ekibimiz sayfası: tam biyografiler */}
     {
       full && (
-        <div class="mt-12 space-y-12">
+        <div class="mt-12 space-y-8">
           {team.map((m) => (
-            <article id={m.slug} class="scroll-mt-24 grid gap-6 border-t border-ink/10 pt-12 first:border-t-0 first:pt-0 md:grid-cols-12 md:gap-8">
-              <div class="md:col-span-3">
-                <div class="relative aspect-[3/4] w-full max-w-[220px] overflow-hidden rounded-md bg-ink/5">
+            <article id={m.slug} class="frame scroll-mt-28 bg-white">
+              <div class="grid gap-6 p-6 md:grid-cols-12 md:gap-8 md:p-8">
+                <div class="md:col-span-4 lg:col-span-3">
                   {m.photo ? (
                     <Image
                       src={m.photo}
                       alt={m.name}
-                      widths={[220, 360, 440]}
-                      sizes="(max-width: 768px) 60vw, 220px"
-                      class="h-full w-full object-cover object-top"
+                      widths={[240, 360, 480]}
+                      sizes="(max-width: 768px) 60vw, 240px"
+                      class="frame aspect-[4/5] w-full max-w-[230px] object-cover object-top"
                     />
                   ) : (
-                    <div class="flex h-full w-full items-center justify-center bg-ink text-cream">
-                      <span class="font-serif text-4xl font-semibold tracking-wide">{initials(m.name)}</span>
+                    <div class="frame flex aspect-[4/5] w-full max-w-[230px] items-center justify-center bg-cream">
+                      <span class="text-5xl font-bold text-ink/40">{initials(m.name)}</span>
                     </div>
                   )}
                 </div>
-              </div>
-              <div class="md:col-span-9">
-                <h2 class="font-serif text-2xl font-semibold text-ink">{m.name}</h2>
-                <p class="mt-1 text-sm font-medium text-gold-600">{m.title[lang]}</p>
-                <p class="mt-2 text-sm">
-                  <a href={`mailto:${m.email}`} class="text-ink-500 underline-offset-2 transition-colors hover:text-gold-600 hover:underline">
-                    {m.email}
-                  </a>
-                </p>
+                <div class="md:col-span-8 lg:col-span-9">
+                  <h2 class="text-[1.7rem] font-bold leading-tight text-ink">{m.name}</h2>
+                  <p class="t-mono-label mt-2 text-ink/70">{m.title[lang]}</p>
+                  <p class="mt-2 text-[0.95rem]">
+                    <a href={`mailto:${m.email}`} class="font-medium text-ink underline underline-offset-4 hover:bg-butter">{m.email}</a>
+                  </p>
 
-                <dl class="mt-6 grid gap-6 sm:grid-cols-2">
-                  {m.areas.length > 0 && (
-                    <div class="sm:col-span-2">
-                      <dt class="text-xs font-semibold uppercase tracking-wide text-ink-500">{t('team.areas')}</dt>
-                      <dd class="mt-2 flex flex-wrap gap-2">
-                        {m.areas.map((a) => (
-                          <span class="rounded-full bg-white px-3 py-1 text-xs text-ink-700 ring-1 ring-ink/10">{a[lang]}</span>
-                        ))}
-                      </dd>
-                    </div>
-                  )}
-                  {m.education.length > 0 && (
-                    <div>
-                      <dt class="text-xs font-semibold uppercase tracking-wide text-ink-500">{t('team.education')}</dt>
-                      <dd class="mt-2 space-y-1 text-sm text-ink-700">
-                        {m.education.map((e) => (
-                          <p>{e[lang]}</p>
-                        ))}
-                      </dd>
-                    </div>
-                  )}
-                  <div>
-                    <dt class="text-xs font-semibold uppercase tracking-wide text-ink-500">{t('team.languages')}</dt>
-                    <dd class="mt-2 text-sm text-ink-700">{m.languages[lang]}</dd>
-                    {m.bar && (
-                      <>
-                        <dt class="mt-4 text-xs font-semibold uppercase tracking-wide text-ink-500">{m.bar.label[lang]}</dt>
-                        <dd class="mt-2 text-sm text-ink-700">{m.bar.value}</dd>
-                      </>
+                  <dl class="mt-6 grid gap-6 sm:grid-cols-2">
+                    {m.areas.length > 0 && (
+                      <div class="sm:col-span-2">
+                        <dt class="t-mono-label text-ink/60">{t('team.areas')}</dt>
+                        <dd class="mt-3 flex flex-wrap gap-2">
+                          {m.areas.map((a) => (
+                            <span class="border border-ink px-3 py-1 text-[0.82rem] text-ink">{a[lang]}</span>
+                          ))}
+                        </dd>
+                      </div>
                     )}
-                  </div>
-                </dl>
+                    {m.education.length > 0 && (
+                      <div>
+                        <dt class="t-mono-label text-ink/60">{t('team.education')}</dt>
+                        <dd class="mt-3 space-y-1.5 text-[0.95rem] text-ink/85">
+                          {m.education.map((e) => (
+                            <p>{e[lang]}</p>
+                          ))}
+                        </dd>
+                      </div>
+                    )}
+                    <div>
+                      <dt class="t-mono-label text-ink/60">{t('team.languages')}</dt>
+                      <dd class="mt-3 text-[0.95rem] text-ink/85">{m.languages[lang]}</dd>
+                      {m.bar && (
+                        <>
+                          <dt class="t-mono-label mt-4 text-ink/60">{m.bar.label[lang]}</dt>
+                          <dd class="mt-3 text-[0.95rem] text-ink/85">{m.bar.value}</dd>
+                        </>
+                      )}
+                    </div>
+                  </dl>
+                </div>
               </div>
             </article>
           ))}
