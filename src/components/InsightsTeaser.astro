@@ -13,48 +13,50 @@ const posts = (await getInsights(lang)).slice(0, 3);
 const base = withBase(lang === 'tr' ? '/guncel' : '/en/insights');
 ---
 
-<section id="guncel" class="bg-cream">
-  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-    <div class="flex flex-wrap items-end justify-between gap-4">
-      <div class="max-w-2xl">
-        <p class="text-sm font-semibold uppercase tracking-[0.18em] text-gold-600">
-          {t('insights.title')}
-        </p>
-        <h2 class="mt-3 font-serif text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-          {t('insights.subtitle')}
-        </h2>
-      </div>
-      {
-        posts.length > 0 && (
-          <a
-            href={routeMap.insights[lang]}
-            class="inline-flex items-center gap-2 text-sm font-semibold text-gold-600 transition-colors hover:text-ink"
-          >
-            {t('insights.all')}
-            <span aria-hidden="true">&rarr;</span>
-          </a>
-        )
-      }
+<section id="guncel" class="bg-paper py-[88px] sm:py-[110px]">
+  <div class="mx-auto max-w-[1100px] px-5 sm:px-8">
+    <div class="text-center">
+      <h2 class="t-h2 text-ink">{t('insights.title')}</h2>
+      <p class="mx-auto mt-4 max-w-[44ch] text-[1.1rem] leading-relaxed text-smoke">{t('insights.subtitle')}</p>
     </div>
 
     {
       posts.length === 0 ? (
-        <p class="mt-10 text-base text-ink-500">{t('insights.empty')}</p>
+        <p class="mt-10 text-center text-smoke">{t('insights.empty')}</p>
       ) : (
-        <div class="mt-12 grid gap-8 md:grid-cols-3">
+        <div class="mt-12 grid gap-6 md:grid-cols-3">
           {posts.map((post) => (
-            <article class="group">
-              <a href={`${base}/${post.data.slug}`} class="block">
-                <p class="text-xs font-medium uppercase tracking-wide text-gold-600">
-                  {formatDate(post.data.pubDate, lang)}
-                </p>
-                <h3 class="mt-2 font-serif text-xl font-semibold leading-snug text-ink transition-colors group-hover:text-gold-600">
-                  {post.data.title}
-                </h3>
-                <p class="mt-2 text-sm leading-relaxed text-ink-500">{post.data.description}</p>
-              </a>
-            </article>
+            <a
+              href={`${base}/${post.data.slug}`}
+              class="group flex flex-col rounded-[24px] border border-ash bg-paper p-6 glow-ring transition-transform duration-300 hover:-translate-y-1"
+            >
+              <p class="text-[0.78rem] font-semibold uppercase tracking-[0.1em] text-blue">
+                {formatDate(post.data.pubDate, lang)}
+              </p>
+              <h3 class="mt-3 font-display text-[1.4rem] leading-tight text-ink">
+                {post.data.title}
+              </h3>
+              <p class="mt-2.5 text-[0.95rem] leading-[1.55] text-graphite">{post.data.description}</p>
+              <span class="mt-4 inline-flex items-center gap-1.5 text-[0.88rem] font-semibold text-blue">
+                {t('insights.all')}
+                <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+              </span>
+            </a>
           ))}
+        </div>
+      )
+    }
+
+    {
+      posts.length > 0 && (
+        <div class="mt-10 text-center">
+          <a
+            href={routeMap.insights[lang]}
+            class="inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-blue transition-opacity duration-200 hover:opacity-70"
+          >
+            {t('insights.all')}
+            <span aria-hidden="true">&rarr;</span>
+          </a>
         </div>
       )
     }
