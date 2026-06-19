@@ -1,50 +1,113 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/inter';
-@import '@fontsource/cormorant-garamond/400.css';
-@import '@fontsource/cormorant-garamond/500.css';
-@import '@fontsource/cormorant-garamond/600.css';
-@import '@fontsource/cormorant-garamond/700.css';
+@import '@fontsource-variable/manrope';
 
-/* ---- Design tokens (Tailwind v4 theme) ---- */
+/* =========================================================
+   v6 — "Custo" tasarım sistemi
+   Gunmetal gallery + monolitik tipografi: sıcak gri-yeşil kanvas,
+   tamamen akromatik (sıfır renk), dev tek-aile tip, 1px hairline,
+   gölgesiz/gradyansız. Manrope (PP Neue Montreal yerine).
+   Tüm fotoğraflar gri tonlamaya alınır (akromatik sadakat).
+   ========================================================= */
 @theme {
-  --color-ink: #0f1b2d; /* derin lacivert/antrasit */
-  --color-ink-700: #1b2a40;
-  --color-ink-500: #33455e;
-  --color-gold: #b08d57; /* sıcak vurgu, soluk altın/bronz */
-  --color-gold-600: #9a7846;
-  --color-cream: #f7f5f1; /* nötr açık zemin */
-  --color-cream-200: #efebe3;
+  --color-gunmetal: #9ea29f; /* hero/feature kanvas (gri-yeşil) */
+  --color-obsidian: #000000; /* metin + yapısal çizgi */
+  --color-paper: #ffffff;    /* içerik bölüm zemini + graphite üstü metin */
+  --color-graphite: #4b514d; /* koyu yüzey */
+  --color-steel: #8e9194;    /* bölücü / büyük muted */
+  --color-muted: #6a6e6b;    /* küçük muted metin (AA: paper üstü ~4.6:1) */
+  --color-linen: #a7aaad;    /* ince bölücü */
+  --color-aluminum: #d8d8d8; /* en hafif çizgi / input */
 
-  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Inter Variable', system-ui, -apple-system, Segoe UI, sans-serif;
+  --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --z-header: 50;
 }
 
 html {
   scroll-behavior: smooth;
-  /* sticky header offset için anchor kaydırması */
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 6rem;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-sans);
-  color: var(--color-ink);
-  background-color: #ffffff;
+  font-feature-settings: 'kern', 'liga';
+  color: var(--color-obsidian);
+  background-color: var(--color-paper);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, .font-serif {
-  font-family: var(--font-serif);
+h1, h2, h3, h4 { font-family: var(--font-sans); font-weight: 500; line-height: 1.1; }
+
+::selection { background: var(--color-obsidian); color: var(--color-paper); }
+
+:focus-visible { outline: 2px solid var(--color-obsidian); outline-offset: 3px; }
+
+/* ---- Tip ölçeği (Custo: monolitik, tek aile) ---- */
+.t-display {
+  font-weight: 500;
+  font-size: clamp(2.5rem, 1.3rem + 4vw, 3.6rem); /* 40 → ~57 */
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.t-h {
+  font-weight: 500;
+  font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.375rem); /* 30 → 38 */
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.t-hsm {
+  font-weight: 500;
+  font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem); /* 24 → 30 */
+  line-height: 1.25;
+  text-wrap: balance;
+}
+.t-sub { font-size: 1.25rem; line-height: 1.38; }   /* 20 */
+.t-body { font-size: 1.1875rem; line-height: 1.5; } /* 19 */
+.t-caption {
+  font-size: 0.9375rem; /* 15 */
+  line-height: 1.43;
+  letter-spacing: 0.01em;
 }
 
-/* Erişilebilir odak halkası */
-:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
+.prose-measure { max-width: 38rem; }
+
+/* ---- Custo imza öğeleri ---- */
+.rule { border-top: 1px solid var(--color-obsidian); }
+.rule-soft { border-top: 1px solid var(--color-linen); }
+
+/* Ghost pill (birincil) — dolgu yok, 1px çerçeve */
+.btn-pill {
+  border-radius: 31.35px;
+  border: 1px solid currentColor;
+  transition: background 0.2s ease, color 0.2s ease;
 }
+.btn-pill-dark { color: var(--color-obsidian); }
+.btn-pill-dark:hover { background: var(--color-obsidian); color: var(--color-paper); }
+.btn-pill-light { color: var(--color-paper); }
+.btn-pill-light:hover { background: var(--color-paper); color: var(--color-obsidian); }
+
+/* Ghost 8px (ikincil) */
+.btn-sq {
+  border-radius: 8px;
+  border: 1px solid var(--color-obsidian);
+  color: var(--color-obsidian);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-sq:hover { background: var(--color-obsidian); color: var(--color-paper); }
+
+/* Tüm fotoğraflar gri tonlama (akromatik) */
+.grayscale-img { filter: grayscale(1) contrast(1.03); }
+
+/* ---- Hareket (ölçülü) ---- */
+@keyframes c-rise { from { opacity: 0; transform: translateY(0.8rem); } to { opacity: 1; transform: translateY(0); } }
+.anim-rise { animation: c-rise 0.8s cubic-bezier(0.22,1,0.36,1) both; }
+.anim-rise-2 { animation: c-rise 0.8s cubic-bezier(0.22,1,0.36,1) 0.12s both; }
+.anim-rise-3 { animation: c-rise 0.8s cubic-bezier(0.22,1,0.36,1) 0.24s both; }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
+  .anim-rise, .anim-rise-2, .anim-rise-3 { animation: none; }
 }

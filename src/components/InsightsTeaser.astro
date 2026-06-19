@@ -13,47 +13,28 @@ const posts = (await getInsights(lang)).slice(0, 3);
 const base = withBase(lang === 'tr' ? '/guncel' : '/en/insights');
 ---
 
-<section id="guncel" class="bg-cream">
-  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-    <div class="flex flex-wrap items-end justify-between gap-4">
-      <div class="max-w-2xl">
-        <p class="text-sm font-semibold uppercase tracking-[0.18em] text-gold-600">
-          {t('insights.title')}
-        </p>
-        <h2 class="mt-3 font-serif text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-          {t('insights.subtitle')}
-        </h2>
-      </div>
-      {
-        posts.length > 0 && (
-          <a
-            href={routeMap.insights[lang]}
-            class="inline-flex items-center gap-2 text-sm font-semibold text-gold-600 transition-colors hover:text-ink"
-          >
-            {t('insights.all')}
-            <span aria-hidden="true">&rarr;</span>
-          </a>
-        )
-      }
+<section id="guncel" class="bg-paper">
+  <div class="mx-auto max-w-[1280px] px-5 py-[88px] sm:px-8 sm:py-[110px]">
+    <div class="grid gap-8 lg:grid-cols-12 lg:gap-6">
+      <div class="lg:col-span-3"><p class="t-caption text-obsidian">{t('insights.title')}</p></div>
+      <div class="lg:col-span-9 lg:pl-10"><h2 class="t-h max-w-[20ch] text-obsidian">{t('insights.subtitle')}</h2></div>
     </div>
 
     {
       posts.length === 0 ? (
-        <p class="mt-10 text-base text-ink-500">{t('insights.empty')}</p>
+        <p class="mt-10 t-body text-muted">{t('insights.empty')}</p>
       ) : (
-        <div class="mt-12 grid gap-8 md:grid-cols-3">
+        <div class="mt-12 grid gap-5 md:grid-cols-3">
           {posts.map((post) => (
-            <article class="group">
-              <a href={`${base}/${post.data.slug}`} class="block">
-                <p class="text-xs font-medium uppercase tracking-wide text-gold-600">
-                  {formatDate(post.data.pubDate, lang)}
-                </p>
-                <h3 class="mt-2 font-serif text-xl font-semibold leading-snug text-ink transition-colors group-hover:text-gold-600">
-                  {post.data.title}
-                </h3>
-                <p class="mt-2 text-sm leading-relaxed text-ink-500">{post.data.description}</p>
-              </a>
-            </article>
+            <a href={`${base}/${post.data.slug}`} class="group flex flex-col rounded-[8px] border border-linen bg-paper p-6 transition-colors hover:border-obsidian">
+              <p class="t-caption text-muted">{formatDate(post.data.pubDate, lang)}</p>
+              <h3 class="t-hsm mt-3 text-obsidian">{post.data.title}</h3>
+              <p class="mt-2.5 text-[0.98rem] leading-[1.5] text-obsidian/85">{post.data.description}</p>
+              <span class="t-caption mt-5 inline-flex items-center gap-1.5 text-obsidian underline underline-offset-4">
+                {t('insights.all')}
+                <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+              </span>
+            </a>
           ))}
         </div>
       )

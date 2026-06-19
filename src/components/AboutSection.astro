@@ -1,6 +1,4 @@
 ---
-import type { ImageMetadata } from 'astro';
-import { Image } from 'astro:assets';
 import type { Lang } from '../i18n/ui';
 import { useTranslations } from '../i18n/utils';
 import { aboutParagraphs } from '../data/about';
@@ -12,59 +10,37 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-
-// src/assets/site/about.(jpg|...) varsa görsel bandı gösterilir; yoksa gizlenir.
-const siteImages = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/site/*.{jpg,jpeg,png,webp,avif}',
-  { eager: true }
-);
-const aboutEntry = Object.entries(siteImages).find(([p]) =>
-  p.toLowerCase().includes('/about.')
-);
-const aboutImage = aboutEntry ? aboutEntry[1].default : null;
 ---
 
-<section id="hakkimizda" class="bg-cream">
-  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
-      <div class="lg:col-span-4">
-        <p class="text-sm font-semibold uppercase tracking-[0.18em] text-gold-600">
-          {t('about.title')}
+<section id="hakkimizda" class="bg-paper">
+  <div class="mx-auto max-w-[1280px] px-5 py-[88px] sm:px-8 sm:py-[110px]">
+    <div class="grid gap-10 lg:grid-cols-12 lg:gap-6">
+      {/* sol: caption */}
+      <div class="lg:col-span-3">
+        <p class="t-caption text-obsidian">{t('about.title')}</p>
+        <div class="rule mt-5 w-full"></div>
+        <p class="mt-5 flex items-baseline gap-2">
+          <span class="text-[2.75rem] font-medium leading-none text-obsidian">{contact.foundedYear}</span>
+          <span class="t-caption text-muted">{lang === 'tr' ? '—' : '—'}</span>
         </p>
-        <h2 class="mt-3 font-serif text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-          {lang === 'tr'
-            ? 'Güvene dayalı, çözüm odaklı hukuk anlayışı'
-            : 'Trust-based, solution-oriented legal practice'}
-        </h2>
-        <div class="mt-6 flex items-baseline gap-3">
-          <span class="font-serif text-5xl font-semibold text-gold">{contact.foundedYear}</span>
-          <span class="text-sm text-ink-500">
-            {lang === 'tr' ? 'yılından bu yana' : 'serving since'}
-          </span>
-        </div>
+        <p class="t-caption mt-1 text-muted">{lang === 'tr' ? 'yılından bu yana' : 'serving since'}</p>
       </div>
-      <div class="space-y-5 lg:col-span-8">
-        {
-          aboutParagraphs.map((p) => (
-            <p class="text-base leading-relaxed text-ink-700">{p[lang]}</p>
-          ))
-        }
+
+      {/* sağ: başlık + gövde */}
+      <div class="lg:col-span-9 lg:pl-10">
+        <h2 class="t-h max-w-[22ch] text-obsidian">
+          {lang === 'tr'
+            ? 'Güvene dayalı, çözüm odaklı hukuk anlayışı.'
+            : 'Trust-based, solution-oriented legal practice.'}
+        </h2>
+        <div class="mt-8 grid gap-x-12 gap-y-5 md:grid-cols-2">
+          {
+            aboutParagraphs.map((p) => (
+              <p class="t-body leading-[1.5] text-obsidian/90">{p[lang]}</p>
+            ))
+          }
+        </div>
       </div>
     </div>
-
-    {
-      aboutImage && (
-        <div class="mt-12 overflow-hidden rounded-lg lg:mt-16">
-          <Image
-            src={aboutImage}
-            alt=""
-            widths={[768, 1280, 1600]}
-            sizes="(max-width: 1280px) 100vw, 1216px"
-            class="aspect-[16/7] w-full object-cover"
-          />
-        </div>
-      )
-    }
   </div>
 </section>
-
