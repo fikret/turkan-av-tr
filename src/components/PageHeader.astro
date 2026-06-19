@@ -5,13 +5,12 @@ interface Props {
   subtitle?: string;
 }
 
-const { eyebrow, title, subtitle } = Astro.props;
+const { title, subtitle } = Astro.props;
 ---
 
 <section class="bg-gunmetal">
   <div class="mx-auto max-w-[1280px] px-5 pb-[64px] pt-32 sm:px-8 sm:pb-[80px] sm:pt-40">
-    {eyebrow && <p class="t-caption anim-rise text-obsidian">{eyebrow}</p>}
-    <h1 class="anim-rise mt-4 max-w-[18ch] font-medium leading-[1.0] text-obsidian"
+    <h1 class="anim-rise max-w-[18ch] font-medium leading-[1.0] text-obsidian"
       style="font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: -0.02em;">{title}</h1>
     {subtitle && <p class="anim-rise-2 t-body mt-6 max-w-[44ch] text-obsidian/90">{subtitle}</p>}
   </div>

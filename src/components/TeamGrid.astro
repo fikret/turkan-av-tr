@@ -20,10 +20,14 @@ function initials(name: string): string {
 
 <section id="ekibimiz" class="bg-paper">
   <div class="mx-auto max-w-[1280px] px-5 py-[88px] sm:px-8 sm:py-[110px]">
-    <div class="grid gap-8 lg:grid-cols-12 lg:gap-6">
-      <div class="lg:col-span-3"><p class="t-caption text-obsidian">{t('team.title')}</p></div>
-      <div class="lg:col-span-9 lg:pl-10"><h2 class="t-h max-w-[20ch] text-obsidian">{t('team.subtitle')}</h2></div>
-    </div>
+    {
+      !full && (
+        <div class="grid gap-8 lg:grid-cols-12 lg:gap-6">
+          <div class="lg:col-span-3"><p class="t-caption text-obsidian">{t('team.title')}</p></div>
+          <div class="lg:col-span-9 lg:pl-10"><h2 class="t-h max-w-[20ch] text-obsidian">{t('team.subtitle')}</h2></div>
+        </div>
+      )
+    }
 
     {/* Ana sayfa: gri-tonlama portreler */}
     {
@@ -43,7 +47,7 @@ function initials(name: string): string {
                     />
                   ) : (
                     <div class="flex aspect-[4/5] w-full items-center justify-center bg-graphite">
-                      <span class="text-4xl font-medium text-paper/70">{initials(m.name)}</span>
+                      <span class="text-4xl font-medium text-paper/85">{initials(m.name)}</span>
                     </div>
                   )}
                 </div>
@@ -65,7 +69,7 @@ function initials(name: string): string {
     {/* Ekibimiz sayfası: tam biyografiler */}
     {
       full && (
-        <div class="mt-12 space-y-8">
+        <div class="space-y-8">
           {team.map((m) => (
             <article id={m.slug} class="scroll-mt-28 grid gap-6 border-t border-obsidian pt-8 first:border-t-0 first:pt-0 md:grid-cols-12 md:gap-8">
               <div class="md:col-span-4 lg:col-span-3">
@@ -80,7 +84,7 @@ function initials(name: string): string {
                     />
                   ) : (
                     <div class="flex aspect-[4/5] w-full max-w-[240px] items-center justify-center bg-graphite">
-                      <span class="text-5xl font-medium text-paper/70">{initials(m.name)}</span>
+                      <span class="text-5xl font-medium text-paper/85">{initials(m.name)}</span>
                     </div>
                   )}
                 </div>

@@ -18,12 +18,9 @@ const t = useTranslations(lang);
       {/* sol: caption */}
       <div class="lg:col-span-3">
         <p class="t-caption text-obsidian">{t('about.title')}</p>
-        <div class="rule mt-5 w-full"></div>
-        <p class="mt-5 flex items-baseline gap-2">
-          <span class="text-[2.75rem] font-medium leading-none text-obsidian">{contact.foundedYear}</span>
-          <span class="t-caption text-muted">{lang === 'tr' ? '—' : '—'}</span>
-        </p>
-        <p class="t-caption mt-1 text-muted">{lang === 'tr' ? 'yılından bu yana' : 'serving since'}</p>
+        <div class="rule mt-5"></div>
+        <p class="mt-6 text-[2.75rem] font-medium leading-none text-obsidian">{contact.foundedYear}</p>
+        <p class="t-caption mt-2 text-muted">{lang === 'tr' ? 'yılından bu yana' : 'serving since'}</p>
       </div>
 
       {/* sağ: başlık + gövde */}
@@ -33,10 +30,10 @@ const t = useTranslations(lang);
             ? 'Güvene dayalı, çözüm odaklı hukuk anlayışı.'
             : 'Trust-based, solution-oriented legal practice.'}
         </h2>
-        <div class="mt-8 grid gap-x-12 gap-y-5 md:grid-cols-2">
+        <div class="mt-8 max-w-[42rem] space-y-5">
           {
             aboutParagraphs.map((p) => (
-              <p class="t-body leading-[1.5] text-obsidian/90">{p[lang]}</p>
+              <p class="t-body leading-[1.55] text-obsidian/90">{p[lang]}</p>
             ))
           }
         </div>

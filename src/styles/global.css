@@ -45,13 +45,6 @@ h1, h2, h3, h4 { font-family: var(--font-sans); font-weight: 500; line-height: 1
 :focus-visible { outline: 2px solid var(--color-obsidian); outline-offset: 3px; }
 
 /* ---- Tip ölçeği (Custo: monolitik, tek aile) ---- */
-.t-display {
-  font-weight: 500;
-  font-size: clamp(2.5rem, 1.3rem + 4vw, 3.6rem); /* 40 → ~57 */
-  line-height: 1.0;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
-}
 .t-h {
   font-weight: 500;
   font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.375rem); /* 30 → 38 */

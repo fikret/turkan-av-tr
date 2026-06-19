@@ -15,14 +15,18 @@ const practicePath = routeMap.practice[lang];
 
 <section id="calisma-alanlari" class={full ? 'bg-paper' : 'bg-gunmetal'}>
   <div class="mx-auto max-w-[1280px] px-5 py-[88px] sm:px-8 sm:py-[110px]">
-    <div class="grid gap-8 lg:grid-cols-12 lg:gap-6">
-      <div class="lg:col-span-3">
-        <p class="t-caption text-obsidian">{t('practice.title')}</p>
-      </div>
-      <div class="lg:col-span-9 lg:pl-10">
-        <h2 class="t-h max-w-[20ch] text-obsidian">{t('practice.subtitle')}</h2>
-      </div>
-    </div>
+    {
+      !full && (
+        <div class="grid gap-8 lg:grid-cols-12 lg:gap-6">
+          <div class="lg:col-span-3">
+            <p class="t-caption text-obsidian">{t('practice.title')}</p>
+          </div>
+          <div class="lg:col-span-9 lg:pl-10">
+            <h2 class="t-h max-w-[20ch] text-obsidian">{t('practice.subtitle')}</h2>
+          </div>
+        </div>
+      )
+    }
 
     {
       !full ? (
@@ -32,10 +36,10 @@ const practicePath = routeMap.practice[lang];
             {practiceAreas.map((area) => (
               <a
                 href={`${practicePath}#${area.slug}`}
-                class="group flex items-center justify-between gap-4 border-t border-obsidian py-4 transition-opacity hover:opacity-60"
+                class="group flex items-center justify-between gap-4 border-t border-obsidian py-4"
               >
-                <span class="t-sub text-obsidian">{area.name[lang]}</span>
-                <span class="shrink-0 text-obsidian opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true">&rarr;</span>
+                <span class="t-sub text-obsidian decoration-1 underline-offset-4 group-hover:underline">{area.name[lang]}</span>
+                <span class="shrink-0 text-obsidian opacity-30 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100" aria-hidden="true">&rarr;</span>
               </a>
             ))}
           </div>
@@ -48,7 +52,7 @@ const practicePath = routeMap.practice[lang];
         </>
       ) : (
         /* Detay: outlined 8px kartlar */
-        <div class="mt-12 grid gap-5 md:grid-cols-2">
+        <div class="grid gap-5 md:grid-cols-2">
           {practiceAreas.map((area) => (
             <article id={area.slug} class="scroll-mt-28 rounded-[8px] border border-obsidian bg-paper p-6 sm:p-8">
               <h3 class="t-hsm text-obsidian">{area.name[lang]}</h3>
