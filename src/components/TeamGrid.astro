@@ -20,8 +20,12 @@ function initials(name: string): string {
 
 <section id="ekibimiz" class="border-t border-line bg-paper-2">
   <div class="mx-auto max-w-[78rem] px-6 py-20 sm:px-10 sm:py-28">
-    <h2 class="t-h2 text-ink">{t('team.title')}</h2>
-    <div class="rule mt-8"></div>
+    {!full && (
+      <>
+        <h2 class="t-h2 text-ink">{t('team.title')}</h2>
+        <div class="rule mt-8"></div>
+      </>
+    )}
 
     {
       !full && (
