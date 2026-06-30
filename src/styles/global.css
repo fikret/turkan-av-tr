@@ -1,50 +1,105 @@
+/* Hallmark · macrostructure: Letter (editorial restraint) · tone: luxury/austere · anchor hue: oxblood (~30) */
 @import 'tailwindcss';
-@import '@fontsource-variable/inter';
-@import '@fontsource/cormorant-garamond/400.css';
-@import '@fontsource/cormorant-garamond/500.css';
-@import '@fontsource/cormorant-garamond/600.css';
-@import '@fontsource/cormorant-garamond/700.css';
+@import '@fontsource-variable/eb-garamond';
 
-/* ---- Design tokens (Tailwind v4 theme) ---- */
+/* =========================================================
+   v7 — "Quiet Luxury" (Gibson Dunn / Kirkland register)
+   Sıcak bone kanvas + near-black mürekkep + tek ölçülü oxblood aksan.
+   Tek rafine serif (EB Garamond), iki yana yaslı (justify) gövde,
+   bol boşluk, restraint. Gradyan/gösteriş yok.
+   ========================================================= */
 @theme {
-  --color-ink: #0f1b2d; /* derin lacivert/antrasit */
-  --color-ink-700: #1b2a40;
-  --color-ink-500: #33455e;
-  --color-gold: #b08d57; /* sıcak vurgu, soluk altın/bronz */
-  --color-gold-600: #9a7846;
-  --color-cream: #f7f5f1; /* nötr açık zemin */
-  --color-cream-200: #efebe3;
+  --color-paper: oklch(0.962 0.006 78);   /* sıcak bone kanvas */
+  --color-paper-2: oklch(0.935 0.008 78);  /* ikincil yüzey */
+  --color-paper-3: oklch(0.905 0.010 78);
+  --color-ink: oklch(0.225 0.012 60);      /* sıcak near-black metin */
+  --color-ink-soft: oklch(0.40 0.013 55);  /* ikincil metin */
+  --color-ink-faint: oklch(0.50 0.012 55); /* muted (AA: paper üstü) */
+  --color-accent: oklch(0.42 0.105 32);    /* derin oxblood — ≤%5 */
+  --color-accent-soft: oklch(0.50 0.10 32);
 
-  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Inter Variable', system-ui, -apple-system, Segoe UI, sans-serif;
+  --color-line: oklch(0.225 0.012 60 / 0.16);
+  --color-line-strong: oklch(0.225 0.012 60 / 0.30);
+
+  --font-serif: 'EB Garamond Variable', Garamond, Georgia, 'Times New Roman', serif;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --z-header: 50;
 }
+
+html, body { overflow-x: clip; }
 
 html {
   scroll-behavior: smooth;
-  /* sticky header offset için anchor kaydırması */
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 6rem;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: var(--font-sans);
-  color: var(--color-ink);
-  background-color: #ffffff;
-  -webkit-font-smoothing: antialiased;
-}
-
-h1, h2, h3, h4, .font-serif {
   font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.125rem;       /* 18px serif gövde */
+  line-height: 1.62;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern', 'liga';
 }
 
-/* Erişilebilir odak halkası */
-:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
+/* Başlıklar — daima roman (italik yasak), gövdeden büyük */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.006em;
+  color: var(--color-ink);
+  text-wrap: balance;
 }
+
+::selection { background: var(--color-accent); color: var(--color-paper); }
+
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+
+/* ---- Tip ölçeği (başlık ≥ gövde her zaman) ---- */
+.t-display {
+  font-weight: 500;
+  font-size: clamp(2.6rem, 1.5rem + 3.5vw, 4.25rem); /* 42 → 68 */
+  line-height: 1.04;
+  letter-spacing: -0.014em;
+  overflow-wrap: anywhere;
+}
+.t-h2 { font-size: clamp(1.9rem, 1.4rem + 1.7vw, 2.75rem); line-height: 1.1; }   /* 30 → 44 */
+.t-h3 { font-size: clamp(1.4rem, 1.2rem + 0.7vw, 1.7rem); line-height: 1.2; }    /* 22 → 27 */
+.t-lead { font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem); line-height: 1.5; color: var(--color-ink-soft); }
+.t-label { /* küçük etiket — uppercase DEĞİL, italik DEĞİL */
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  color: var(--color-ink-faint);
+}
+
+/* İki yana yaslı gövde (müşteri isteği) — tireleme ile nehirler önlenir */
+.prose-justify {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+.prose-measure { max-width: 38rem; }
+
+.rule { border-top: 1px solid var(--color-line-strong); }
+
+/* Premium fotoğraf grade'i — tutarlı sıcak/kısık (kürate tam renk) */
+.grade-warm { filter: saturate(0.86) contrast(1.03) brightness(1.01); }
+
+/* ---- Hareket (ölçülü) ---- */
+@keyframes q-rise { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: translateY(0); } }
+.anim-rise { animation: q-rise 0.9s var(--ease-out) both; }
+.anim-rise-2 { animation: q-rise 0.9s var(--ease-out) 0.12s both; }
+.anim-rise-3 { animation: q-rise 0.9s var(--ease-out) 0.24s both; }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
+  .anim-rise, .anim-rise-2, .anim-rise-3 { animation: none; }
 }

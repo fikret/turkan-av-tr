@@ -11,81 +11,47 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// src/assets/site/hero.(jpg|...) varsa kahraman arka planı olur; yoksa gradyan kalır.
 const siteImages = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/site/*.{jpg,jpeg,png,webp,avif}',
   { eager: true }
 );
-const heroEntry = Object.entries(siteImages).find(([p]) =>
-  p.toLowerCase().includes('/hero.')
-);
+const heroEntry = Object.entries(siteImages).find(([p]) => p.toLowerCase().includes('/hero.'));
 const heroImage = heroEntry ? heroEntry[1].default : null;
 ---
 
-<section class="relative overflow-hidden bg-ink text-cream">
-  {/* Soyut, grafik-olmayan arka plan (terazi/themis yok) */}
-  <div class="absolute inset-0" aria-hidden="true">
-    {heroImage && (
+<section class="bg-paper">
+  <div class="mx-auto max-w-[78rem] px-6 pb-14 pt-16 sm:px-10 sm:pb-20 sm:pt-24">
+    <p class="anim-rise t-label">{lang === 'tr' ? 'Est. 2014 — Moda, Kadıköy' : 'Est. 2014 — Moda, Kadıköy'}</p>
+
+    {/* SLOGAN — müşteri kendi sloganını verecek; şimdilik değer önermesi */}
+    <h1 class="t-display anim-rise mt-6 max-w-[20ch] text-ink">{t('hero.title')}</h1>
+
+    <p class="t-lead prose-justify anim-rise-2 mt-8 max-w-[42rem]">{t('hero.subtitle')}</p>
+
+    <div class="anim-rise-2 mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+      <a href={routeMap.practice[lang]}
+        class="inline-flex items-center border border-ink px-7 py-3 text-[1.02rem] text-ink transition-colors duration-200 hover:bg-ink hover:text-paper">
+        {t('hero.cta.practice')}
+      </a>
+      <a href={routeMap.contact[lang]}
+        class="inline-flex items-center gap-2 text-[1.02rem] text-accent underline underline-offset-[6px] transition-opacity hover:opacity-70">
+        {t('hero.cta.contact')}
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </div>
+
+  {/* Premium görsel bandı — tutarlı sıcak grade */}
+  {heroImage && (
+    <div class="anim-rise-3 mx-auto max-w-[90rem] px-0 sm:px-6">
       <Image
         src={heroImage}
-        alt=""
-        widths={[768, 1280, 1920]}
+        alt={lang === 'tr' ? 'Moda, Kadıköy — büromuzun bulunduğu semtten bir görünüm' : 'Moda, Kadıköy — a view from our neighbourhood'}
+        widths={[768, 1280, 1920, 2400]}
         sizes="100vw"
-        class="absolute inset-0 h-full w-full object-cover"
         loading="eager"
+        class="grade-warm h-[44vh] min-h-[320px] w-full object-cover sm:h-[60vh]"
       />
-    )}
-    <div
-      class="absolute inset-0"
-      style={heroImage
-        ? 'background: linear-gradient(135deg, rgba(15,27,45,0.92) 0%, rgba(22,36,58,0.82) 55%, rgba(15,27,45,0.9) 100%);'
-        : `background:
-        radial-gradient(60% 80% at 75% 20%, rgba(176,141,87,0.28), transparent 60%),
-        radial-gradient(50% 70% at 15% 90%, rgba(81,105,135,0.35), transparent 55%),
-        linear-gradient(135deg, #0f1b2d 0%, #16243a 55%, #0f1b2d 100%);`}>
     </div>
-    {/* ince çizgisel doku */}
-    <div
-      class="absolute inset-0 opacity-[0.06]"
-      style="background-image: repeating-linear-gradient(115deg, #ffffff 0 1px, transparent 1px 26px);">
-    </div>
-  </div>
-
-  <div class="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8 lg:py-40">
-    <div class="max-w-3xl">
-      <p class="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-gold">
-        {t('site.name')}
-      </p>
-      <h1 class="font-serif text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
-        {t('hero.title')}
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-cream/80">
-        {t('hero.subtitle')}
-      </p>
-      <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <a
-          href={routeMap.practice[lang]}
-          class="inline-flex items-center justify-center rounded-sm bg-gold px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-gold-600 hover:text-cream"
-        >
-          {t('hero.cta.practice')}
-        </a>
-        <a
-          href={routeMap.contact[lang]}
-          class="inline-flex items-center justify-center rounded-sm border border-cream/30 px-6 py-3 text-sm font-semibold text-cream transition-colors hover:border-gold hover:text-gold"
-        >
-          {t('hero.cta.contact')}
-        </a>
-      </div>
-
-      {/* "we connect" üyelik rozeti — görsel müşteriden gelince /public/we-connect.svg ile değiştirilir */}
-      <div class="mt-12 flex items-center gap-3">
-        <span
-          class="flex h-10 items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-4 text-xs font-semibold uppercase tracking-wide text-cream/80"
-        >
-          <span class="h-2 w-2 rounded-full bg-gold" aria-hidden="true"></span>
-          {t('hero.member')}
-        </span>
-      </div>
-    </div>
-  </div>
+  )}
 </section>

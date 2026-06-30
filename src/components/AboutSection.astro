@@ -1,6 +1,4 @@
 ---
-import type { ImageMetadata } from 'astro';
-import { Image } from 'astro:assets';
 import type { Lang } from '../i18n/ui';
 import { useTranslations } from '../i18n/utils';
 import { aboutParagraphs } from '../data/about';
@@ -12,59 +10,20 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-
-// src/assets/site/about.(jpg|...) varsa görsel bandı gösterilir; yoksa gizlenir.
-const siteImages = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/site/*.{jpg,jpeg,png,webp,avif}',
-  { eager: true }
-);
-const aboutEntry = Object.entries(siteImages).find(([p]) =>
-  p.toLowerCase().includes('/about.')
-);
-const aboutImage = aboutEntry ? aboutEntry[1].default : null;
 ---
 
-<section id="hakkimizda" class="bg-cream">
-  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
-      <div class="lg:col-span-4">
-        <p class="text-sm font-semibold uppercase tracking-[0.18em] text-gold-600">
-          {t('about.title')}
-        </p>
-        <h2 class="mt-3 font-serif text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-          {lang === 'tr'
-            ? 'Güvene dayalı, çözüm odaklı hukuk anlayışı'
-            : 'Trust-based, solution-oriented legal practice'}
-        </h2>
-        <div class="mt-6 flex items-baseline gap-3">
-          <span class="font-serif text-5xl font-semibold text-gold">{contact.foundedYear}</span>
-          <span class="text-sm text-ink-500">
-            {lang === 'tr' ? 'yılından bu yana' : 'serving since'}
-          </span>
-        </div>
-      </div>
-      <div class="space-y-5 lg:col-span-8">
-        {
-          aboutParagraphs.map((p) => (
-            <p class="text-base leading-relaxed text-ink-700">{p[lang]}</p>
-          ))
-        }
-      </div>
-    </div>
+<section id="hakkimizda" class="border-t border-line bg-paper">
+  <div class="mx-auto max-w-[78rem] px-6 py-20 sm:px-10 sm:py-28">
+    <h2 class="t-h2 max-w-[22ch] text-ink">{t('about.title')}</h2>
+    <p class="t-lead mt-5 max-w-[40rem]">
+      {lang === 'tr'
+        ? 'Önleyici, çözüm odaklı ve etkin hukuki destek — 2014’ten bu yana.'
+        : 'Preventive, solution-oriented and effective legal support — since 2014.'}
+    </p>
+    <div class="rule mt-10"></div>
 
-    {
-      aboutImage && (
-        <div class="mt-12 overflow-hidden rounded-lg lg:mt-16">
-          <Image
-            src={aboutImage}
-            alt=""
-            widths={[768, 1280, 1600]}
-            sizes="(max-width: 1280px) 100vw, 1216px"
-            class="aspect-[16/7] w-full object-cover"
-          />
-        </div>
-      )
-    }
+    <div class="prose-justify mt-10 columns-1 gap-14 text-[1.075rem] leading-[1.66] text-ink-soft md:columns-2 [&>p]:mb-5 [&>p]:break-inside-avoid">
+      {aboutParagraphs.map((p) => <p>{p[lang]}</p>)}
+    </div>
   </div>
 </section>
-

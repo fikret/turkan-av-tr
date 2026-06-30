@@ -201,6 +201,17 @@ export const team: TeamMember[] = [
     },
   },
   {
+    // PLACEHOLDER — Serap Hanım. Tam ad/ünvan, çalışma alanları, eğitim, baro, e-posta + foto müşteriden gelince güncellenecek.
+    slug: 'serap',
+    name: 'Av. Serap',
+    title: { tr: 'Avukat', en: 'Lawyer' },
+    email: 'serap@turkan.av.tr',
+    photo: null,
+    areas: [],
+    education: [],
+    languages: { tr: 'Türkçe', en: 'Turkish' },
+  },
+  {
     slug: 'suna-adikti',
     name: 'Suna Adikti',
     title: { tr: 'Asistan', en: 'Assistant' },
